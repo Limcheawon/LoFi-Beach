@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>LOFI BEACH</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 20px;
+                background: url('sea.jpg') no-repeat center center fixed;
+                background-size: cover;
+                display: flex;
+                gap: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                box-sizing: border-box;
+                position: relative;
+            }
+
+            #intro-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: black;
+                z-index: 9999;
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transition: opacity 0.5s ease;
+            }
+
+            #intro-overlay img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+
+            .player-icon {
+                width: 150px;
+                cursor: pointer;
+                transition: transform 0.2s;
+            }
+            .player-icon:hover {
+                transform: scale(1.05);
+            }
+
+
+            #waves {
+                position: absolute;
+                top: 22%;       /* 이미지에 표시해 주신 바다 수평선 영역 위치 */
+                left: 58%;      /* 모래성 위쪽 바다 부근 */
+                width: 80px;    /* 크기 조절 */
+                z-index: 10;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="intro-overlay">
+            <img src="intro.jpg" alt="Intro Screen">
+        </div>
+
+        <img src="flamingo.png" id="flamingo" class="player-icon" alt="Flamingo">
+        <img src="palm tree.png" id="palm" class="player-icon" alt="Palm Tree">
+        <img src="pool.png" id="pool" class="player-icon" alt="Pool">
+        <img src="sand castle.png" id="sand" class="player-icon" alt="Sand Castle">
+        <img src="seagull tube.png" id="tube" class="player-icon" alt="Seagull Tube">
+
+        <img src="waves1.png" id="waves" class="player-icon" alt="Waves">
+        <audio src="Feeling.mp3" id="feeling"></audio>
+        <audio src="Moon.mp3" id="moon"></audio>
+        <audio src="Cruisin.mp3" id="cruisin"></audio>
+        <audio src="Views.mp3" id="views"></audio>
+        <audio src="2021.mp3" id="twentyone"></audio>
+        <audio src="Ocean.mp3" id="ocean"></audio>
+
+        <script>
+            const introOverlay = document.getElementById('intro-overlay');
+            if (introOverlay) {
+                introOverlay.onclick = function() {
+                    introOverlay.style.opacity = '0';
+                    setTimeout(() => {
+                        introOverlay.style.display = 'none';
+                    }, 500);
+                };
+            }
+
+            const setupToggle = (imgId, audioId, offSrc, onSrc) => {
+                const img = document.getElementById(imgId);
+                const audio = document.getElementById(audioId);
+                let state = false;
+
+                if (img && audio) {
+                    img.onclick = function() {
+                        if (!state) {
+                            audio.play().catch(e => console.log("재생 오류:", e));
+                            if (onSrc) img.src = onSrc;
+                            state = true;
+                        } else {
+                            audio.pause();
+                            if (offSrc) img.src = offSrc;
+                            state = false;
+                        }
+                    };
+                }
+            };
+
+            setupToggle("flamingo", "feeling", "flamingo.png", "flamingo_on.png");
+            setupToggle("palm", "moon", "palm tree.png", "palm tree_on.png");
+            setupToggle("pool", "cruisin", "pool.png", "pool_on.png");
+            setupToggle("sand", "views", "sand castle.png", "sand castle_on.png");
+            setupToggle("tube", "twentyone", "seagull tube.png", "seagull tube_on.png");
+            setupToggle("waves", "ocean", "waves1.png", "waves_on.gif");
+        </script>
+    </body>
+</html>
